@@ -15,15 +15,16 @@ provide-module kakoune-persist %^
     }
   }
 
-  define-command load_to_current_val -params 2 -docstring %{
+  define-command load_to_option -params 2..3 -docstring %{
     -1: category
     -2: key
+    -3: option
   } %{
-    lua %opt{this_path} %opt{dashboard_db} %arg{1} %arg{2} %{
+    lua %opt{this_path} %opt{dashboard_db} %arg{1} %arg{2} %arg{3} %{
       addpackagepath(arg[1])
       local persist = require "persist"
       local val = persist(arg[2]).load(arg[3], arg[4])
-      kak.set_option("kakoune_persist_current_val", val)
+      kak.set_option(arg[5] or "kakoune_persist_current_val", val)
     }
   }
 ^
